@@ -1,0 +1,268 @@
+<div class="wrapper" *ngIf="contact">
+  <div class="avatar-section">
+    <div class="contact-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(contact.faces.avatar) + ')'">
+      <div class="avatar-arrow arrow-left mat-elevation-z4"
+           (click)="previousAvatar()"
+           *ngIf="onEdit && (contact.faces.list.length > 1)"><mat-icon color="accent">chevron_left</mat-icon></div>
+      <div class="avatar-arrow arrow-right mat-elevation-z4"
+           (click)="nextAvatar()"
+           *ngIf="onEdit && (contact.faces.list.length > 1)"><mat-icon color="accent">chevron_right</mat-icon></div>
+    </div>
+    <div class="contact-name" *ngIf="!onEdit">
+      <div>{{contact.name.first}}</div>
+      <div>{{contact.name.last}}</div>
+    </div>
+    <div class="contact-name" *ngIf="onEdit">
+      <mat-form-field>
+        <input [(ngModel)]="contact.name.first" matInput
+               placeholder="First Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input [(ngModel)]="contact.name.last" matInput
+               placeholder="Last Name">
+      </mat-form-field>
+    </div>
+  </div><!-- avatar section -->
+
+  <div class="info-section" *ngIf="!onEdit && groupEditable">
+    <div class="part-title">Group</div>
+    <div class="part-item extra-padding">
+      <div class="label">Group</div>
+      <div class="value">{{groupInput}}</div>
+    </div>
+  </div><!-- group -->
+  <div class="info-section" *ngIf="onEdit && groupEditable">
+    <div class="part-title">Group</div>
+    <div class="part-item extra-padding">
+      <div class="label">Group</div>
+      <div class="value">
+        <mat-form-field>
+          <input [matAutocomplete]="group" matInput placeholder="Group"
+                 type="text" [(ngModel)]="groupInput">
+          <mat-autocomplete #group="matAutocomplete" (optionSelected)="groupChanged()">
+            <mat-option *ngFor="let group of groups" [value]="group.name">
+              <div class="d-flex align-items-center">
+                <div class="mat-elevation-z4" style="width: 8px; height: 8px; border-radius: 50%; margin-right: 8px" [style.background-color]="group.color"></div>
+                <span style="font-size: 14px">{{ group.name }}</span>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </div><!-- group on edit -->
+
+  <div class="info-section" *ngIf="contact.occupation.company && !onEdit">
+    <div class="part-title">Occupation</div>
+    <div class="part-item extra-padding">
+      <div class="label">Company</div>
+      <div class="value">{{contact.occupation.company}}</div>
+    </div>
+    <div class="part-item extra-padding">
+      <div class="label">Position</div>
+      <div class="value">{{contact.occupation.position}}</div>
+    </div>
+  </div><!-- occupation -->
+  <div class="info-section" *ngIf="onEdit">
+    <div class="part-title">Occupation</div>
+    <div class="part-item">
+      <div class="label">Company</div>
+      <div class="value">
+        <mat-form-field>
+          <input [(ngModel)]="contact.occupation.company" matInput
+                 placeholder="Company Name">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="part-item">
+      <div class="label">Position</div>
+      <div class="value">
+        <mat-form-field>
+          <input [(ngModel)]="contact.occupation.position" matInput
+                 placeholder="Position Name">
+        </mat-form-field>
+      </div>
+    </div>
+  </div><!-- occupation on edit -->
+
+  <div class="info-section" *ngIf="contact.phones.length && !onEdit">
+    <div class="part-title">Phones</div>
+    <div class="part-item extra-padding" *ngFor="let phone of contact.phones">
+      <div class="label">{{phone.label}}</div>
+      <div class="value">{{formatPhoneNumber(phone.number)}}</div>
+    </div>
+  </div><!-- phones -->
+  <div class="info-section" *ngIf="onEdit">
+    <div class="part-title">Phones</div>
+    <div class="part-item" *ngFor="let phone of contact.phones; let i = index">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="phoneLabel" matInput placeholder="Label"
+                 type="text" [(ngModel)]="phone.label">
+          <mat-autocomplete #phoneLabel="matAutocomplete">
+            <mat-option *ngFor="let option of labelOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Phone Number" type="text" [(ngModel)]="phone.number">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button *ngIf="onEdit" color="warn" mat-icon-button (click)="deleteItem('phones', i)"><mat-icon>remove_circle</mat-icon></button>
+      </div>
+    </div>
+    <div class="part-item">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="phoneLabel" matInput placeholder="Label"
+                 type="text" [(ngModel)]="phoneLabelInput">
+          <mat-autocomplete #phoneLabel="matAutocomplete">
+            <mat-option *ngFor="let option of labelOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Phone Number" type="text" [(ngModel)]="phoneNumberInput">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button color="accent" mat-icon-button (click)="addItem('phones')">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div><!-- phones on edit -->
+
+  <div class="info-section" *ngIf="contact.emails.length && !onEdit">
+    <div class="part-title">Emails</div>
+    <div class="part-item extra-padding" *ngFor="let email of contact.emails">
+      <div class="label">{{email.label}}</div>
+      <div class="value">{{email.address}}</div>
+    </div>
+  </div><!-- emails -->
+  <div class="info-section" *ngIf="onEdit">
+    <div class="part-title">Emails</div>
+    <div class="part-item" *ngFor="let email of contact.emails; let i = index">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="emailLabel" matInput placeholder="Label"
+                 type="text" [(ngModel)]="email.label">
+          <mat-autocomplete #emailLabel="matAutocomplete">
+            <mat-option *ngFor="let option of labelOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Email Address" type="text" [(ngModel)]="email.address">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button mat-icon-button color="warn" (click)="deleteItem('emails', i)"><mat-icon>remove_circle</mat-icon></button>
+      </div>
+    </div>
+    <div class="part-item">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="emailLabel" matInput placeholder="Label"
+                 type="text" [(ngModel)]="emailLabelInput">
+          <mat-autocomplete #emailLabel="matAutocomplete">
+            <mat-option *ngFor="let option of labelOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Email Address" type="text" [(ngModel)]="emailAddressInput">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button color="accent" mat-icon-button (click)="addItem('emails')">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div><!-- emails on edit -->
+
+  <div class="info-section" *ngIf="contact.socials.length && !onEdit">
+    <div class="part-title">Social Profiles</div>
+    <div class="part-item extra-padding" *ngFor="let social of contact.socials">
+      <div class="label">{{social.platform}}</div>
+      <div class="value">@{{social.username}}</div>
+    </div>
+  </div><!-- social profile -->
+  <div class="info-section" *ngIf="onEdit">
+    <div class="part-title">Social Profiles</div>
+    <div class="part-item" *ngFor="let social of contact.socials">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="socialLabel" matInput placeholder="Platform"
+                 type="text" [(ngModel)]="social.platform">
+          <mat-autocomplete #socialLabel="matAutocomplete">
+            <mat-option *ngFor="let option of socialOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Username" type="text" [(ngModel)]="social.username">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button *ngIf="onEdit" color="warn" mat-icon-button (click)="deleteItem('socials', i)">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="part-item">
+      <div class="label">
+        <mat-form-field>
+          <input [matAutocomplete]="socialLabel" matInput placeholder="Platform"
+                 type="text" [(ngModel)]="socialPlatformInput">
+          <mat-autocomplete #socialLabel="matAutocomplete">
+            <mat-option *ngFor="let option of socialOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="value">
+        <mat-form-field>
+          <input matInput placeholder="Username" type="text" [(ngModel)]="socialUsernameInput">
+        </mat-form-field>
+      </div>
+      <div class="action">
+        <button color="accent" mat-icon-button (click)="addItem('socials')">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div><!-- social profile on edit -->
+
+  <div class="info-section" *ngIf="contact.faces.list.length">
+    <div class="part-title">Faces</div>
+    <div class="face-content">
+      <div *ngFor="let face of contact.faces.list; let i = index"
+           class="face-item" (click)="onFaceClicked(face._id)"
+           [style.background-image]="'url(' + imageService.generateThumbnailImageURL(face.thumbnailImageFilename) + ')'">
+        <div class="delete-icon mat-elevation-z4"
+             (click)="deleteFace(i)"
+             *ngIf="onEdit"><mat-icon>close</mat-icon></div>
+      </div>
+    </div>
+  </div><!-- related section: avatars or photos -->
+</div>
+

@@ -1,0 +1,38 @@
+<div class="top-toolbar">
+  <div class="page-title">
+    <span>Gallery</span>
+  </div><!-- page title -->
+
+<!--  <button mat-icon-button>-->
+<!--    <mat-icon>people_alt</mat-icon>-->
+<!--  </button>-->
+</div><!-- top toolbar -->
+
+<div class="page-content">
+  <div class="image-actions">
+    <button mat-flat-button (click)="enterEditing()" *ngIf="!onEdit" color="primary">SELECT</button>
+    <button mat-flat-button (click)="exitEditing()" *ngIf="onEdit" color="primary">DONE</button>
+    <button mat-flat-button (click)="openDeleteDialog()" *ngIf="onEdit" color="warn">DELETE</button>
+  </div>
+  <div class="year-content" *ngFor="let yearContent of imagesTimeline">
+    <div class="year-title">{{yearContent.year}}</div><!-- year title -->
+    <div class="months-content" *ngFor="let months of yearContent.content">
+      <div class="month-content">
+        <div class="month-title">
+          <span class="title-text">{{getMonthName(months.month)}}</span>
+          <mat-checkbox></mat-checkbox><!-- select month photos -->
+        </div><!-- month title -->
+        <div class="photos-wrapper">
+          <div class="photo" *ngFor="let imageFilename of months.imageFilenames"
+               (click)="openPreview(imageFilename)"
+               [class.cursor--pointer]="!onEdit"
+               [style.background-image]="'url(' + imageService.generateImageURL(imageFilename, 'compressed') + ')'">
+            <mat-checkbox class="photo-check mat-elevation-z4"
+                          (change)="selectionChange($event.checked, imageFilename)"
+                          *ngIf="onEdit"></mat-checkbox>
+          </div><!-- single photo -->
+        </div><!-- month photos -->
+      </div><!-- single month content -->
+    </div><!-- months content -->
+  </div><!-- year content -->
+</div><!-- page content -->

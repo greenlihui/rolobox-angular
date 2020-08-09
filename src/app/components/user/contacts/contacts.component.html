@@ -1,0 +1,260 @@
+<div class="top-toolbar">
+  <div class="page-title">
+    <span>Contacts</span>
+  </div><!-- page title -->
+
+  <div>
+    <mat-form-field appearance="legacy">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="Search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div><!-- search section -->
+</div><!-- top toolbar -->
+
+<mat-sidenav-container class="page-content">
+  <mat-sidenav mode="side" position="start" [opened]="startPanelOpened">
+    <div class="left-panel">
+      <div *ngIf="isViewOption(viewOptions.LIST)" class="main-content">
+          <div class="recent-section" *ngIf="false">
+            <div class="section__title">
+              <mat-icon>recent_actors</mat-icon>
+              <span>Recent</span>
+            </div>
+            <div class="recent__content">
+              <div class="contact-wrapper" *ngFor="let i of [1, 1, 1, 1, 1]">
+                <div class="contact__avatar"></div>
+                <div class="contact__name">
+                  <span>Andrew</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- recent section -->
+          <div class="group-section">
+            <div class="section__title">
+              <mat-icon>group</mat-icon>
+              <span>Groups</span>
+              <span class="group__action--add">
+                <button mat-icon-button (click)="openAddGroupDialog()"><mat-icon>add</mat-icon></button>
+              </span>
+            </div>
+            <div class="group__content-wrapper">
+              <div class="group__content">
+                <div class="group-item" *ngFor="let group of groups" [class.item--selected]="currentGroupId === group._id" (click)="setCurrentGroup(group._id)">
+                  <div class="group__color mat-elevation-z4" [style.background]="group.color" [matTooltip]="group.name"></div>
+                  <div class="group__name">{{group.name}}</div>
+                  <div class="group__num-of-contacts">{{group.numContacts}}</div>
+                  <div class="group__action">
+                    <button mat-icon-button [matMenuTriggerFor]="more" [disabled]="group.name === 'Ungrouped'"><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #more="matMenu">
+                      <button mat-menu-item (click)="openEditGroupDialog(group)"><mat-icon>edit</mat-icon>Edit</button>
+                      <button mat-menu-item (click)="openDeleteGroupDialog(group)"><mat-icon color="warn">delete</mat-icon><span style="color: red">Delete</span></button>
+                    </mat-menu>
+                  </div>
+                </div><!-- group item -->
+              </div>
+            </div>
+          </div><!-- group section -->
+        </div><!-- list view option -->
+
+      <form *ngIf="isViewOption(viewOptions.FACE)" class="main-content" [formGroup]="filterForm">
+        <div class="filter-section">
+          <div class="section__title">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filters</span>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="section__content">
+            <div class="inner-scroll-wrapper">
+              <div class="filter-item" formGroupName="Gender">
+                <div class="filter__primary">
+                  <mat-checkbox formControlName="Checked">GENDER</mat-checkbox>
+                </div>
+                <mat-radio-group class="filter__secondary" formControlName="Value">
+                  <mat-radio-button value="Male" class="filter__secondary__input">Male</mat-radio-button>
+                  <mat-radio-button value="Female" class="filter__secondary__input">Female</mat-radio-button>
+                </mat-radio-group>
+              </div><!-- gender filter -->
+              <div class="filter-item" formGroupName="AgeRange">
+                <div class="filter__primary">
+                  <mat-checkbox formControlName="Checked">AGE</mat-checkbox>
+                </div>
+                <div class="filter__secondary" formGroupName="Value">
+                  <mat-form-field class="filter__secondary__input" color="accent">
+                    <input matInput placeholder="Low" formControlName="Low">
+                  </mat-form-field>
+                  <span>to</span>
+                  <mat-form-field class="filter__secondary__input" color="accent">
+                    <input matInput placeholder="High" formControlName="High">
+                  </mat-form-field>
+                </div>
+              </div><!-- age filter -->
+              <div class="filter-item" formGroupName="Eyeglasses">
+                <div class="filter__primary">
+                  <mat-checkbox formControlName="Checked">EYEGLASSES</mat-checkbox>
+                </div>
+                <mat-radio-group class="filter__secondary" formControlName="Value">
+                  <mat-radio-button [value]="true" class="filter__secondary__input">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" class="filter__secondary__input">No</mat-radio-button>
+                </mat-radio-group>
+              </div><!-- glass filter -->
+              <div class="filter-item" formGroupName="Mustache">
+                <div class="filter__primary">
+                  <mat-checkbox formControlName="Checked">MUSTACHE</mat-checkbox>
+                </div>
+                <mat-radio-group class="filter__secondary" formControlName="Value">
+                  <mat-radio-button [value]="true" class="filter__secondary__input">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" class="filter__secondary__input">No</mat-radio-button>
+                </mat-radio-group>
+              </div><!-- mustache filter -->
+              <div class="filter-item" formGroupName="Beard">
+                <div class="filter__primary">
+                  <mat-checkbox formControlName="Checked">BEARD</mat-checkbox>
+                </div>
+                <mat-radio-group class="filter__secondary" formControlName="Value">
+                  <mat-radio-button [value]="true" class="filter__secondary__input">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" class="filter__secondary__input">No</mat-radio-button>
+                </mat-radio-group>
+              </div><!-- beard-filter -->
+              <div class="filter-action__apply">
+                <button mat-flat-button color="accent" (click)="applyFilters()">Apply</button>
+              </div>
+            </div><!-- inner scroll wrapper -->
+          </div><!-- section content -->
+        </div><!-- filter section -->
+      </form><!-- face view option -->
+
+      <div class="view-options">
+        <button mat-icon-button (click)="changeViewOption(viewOptions.LIST)"
+                [class.view-option--selected]="isViewOption(viewOptions.LIST)">
+          <mat-icon>format_list_bulleted</mat-icon>
+        </button>
+        <button mat-icon-button (click)="changeViewOption(viewOptions.FACE)"
+                [class.view-option--selected]="isViewOption(viewOptions.FACE)">
+          <mat-icon>face</mat-icon>
+        </button>
+      </div><!-- view options -->
+    </div><!-- content wrapper -->
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content-wrapper">
+      <div class="top-action-bar">
+        <div class="actions" *ngIf="isViewOption(viewOptions.LIST)">
+          <div *ngIf="!listOnEdit">
+            <button mat-flat-button color="primary" (click)="enterEditing()">Select</button>
+            <button mat-flat-button color="primary" (click)="openAddContactDialog()">Add</button>
+          </div>
+          <div *ngIf="listOnEdit">
+            <button mat-flat-button color="primary" (click)="exitEditing()">Done</button>
+            <button mat-flat-button color="primary" [matMenuTriggerFor]="moveTo">Move</button>
+            <mat-menu #moveTo="matMenu">
+              <button mat-menu-item *ngFor="let group of groups" (click)="moveSelectedTo(group)" [disabled]="group._id === currentGroupId">{{group.name}}</button>
+            </mat-menu>
+            <button mat-flat-button color="warn" (click)="deleteSelected()">Delete</button>
+          </div>
+        </div><!-- actions -->
+        <div class="filters" *ngIf="isViewOption(viewOptions.FACE)">
+          <mat-chip-list>
+            <mat-chip color="primary" *ngFor="let chipString of filterChipsArray" selected>
+              {{chipString}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </div><!-- top action bar -->
+      <div class="contacts-content">
+        <div class="inner-scroll-wrapper">
+          <div *ngIf="isViewOption(viewOptions.LIST)">
+            <table [dataSource]="dataSource" style="width: 100%; height: 100%" mat-table matSort #contactList>
+              <ng-container matColumnDef="select">
+                <th *matHeaderCellDef mat-header-cell>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td *matCellDef="let row" mat-cell>
+                  <mat-checkbox (change)="$event ? selection.toggle(row) : null"
+                                (click)="$event.stopPropagation()"
+                                [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Name</th>
+                <td *matCellDef="let contact" mat-cell>
+                  <div class="avatar-name">
+                    <div class="avatar-name__avatar" [style.background-image]="'url(' + avatarUrl(contact.faces.avatar) + ')'"></div>
+                    <span class="avatar-name__name">{{contact.name.first + ' ' + contact.name.last}}</span>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="company">
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Company</th>
+                <td *matCellDef="let contact"
+                    mat-cell> {{contact.occupation.company || '-'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="position">
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Position</th>
+                <td *matCellDef="let contact" mat-cell>
+                  {{contact.occupation.position || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="phone">
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Phone</th>
+                <td *matCellDef="let contact"
+                    mat-cell> {{(contact.phones.length) ? contact.phones[0].number : '-'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Email</th>
+                <td *matCellDef="let contact"
+                    mat-cell> {{(contact.emails.length) ? contact.emails[0].address : '-'}} </td>
+              </ng-container>
+              <tr *matHeaderRowDef="columnsToDisplay; sticky: true"
+                  mat-header-row></tr>
+              <tr (click)="showContactDetail(contact)" [class.row--selected]="currentContact === contact"
+                  *matRowDef="let contact; let i = index; columns: columnsToDisplay;"
+                  mat-row></tr>
+            </table>
+          </div><!-- list view -->
+
+          <div *ngIf="isViewOption(viewOptions.FACE)" class="face-view-content">
+            <div *ngFor="let contact of contacts" class="face-view-item" (click)="showContactDetail(contact)">
+              <div class="item-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(contact.faces.avatar) + ')'"></div>
+              <div class="item-name name--first">{{contact.name.first}}</div>
+              <div class="item-name name--last">{{contact.name.last}}</div>
+              <div class="item-group-color mat-elevation-z1" [style.background-color]="contact.group.color"></div>
+              <mat-checkbox class="face-view-item-checkbox" *ngIf="false"></mat-checkbox><!-- next version add checkbox -->
+            </div>
+          </div><!-- face view -->
+
+        </div><!-- inner scroll wrapper -->
+      </div><!-- contacts content -->
+    </div><!-- content wrapper -->
+  </mat-sidenav-content>
+
+  <mat-sidenav mode="side" position="end" [opened]="!startPanelOpened">
+    <div class="right-panel">
+      <div class="contact-detail-top-bar">
+        <div>
+          <button mat-icon-button (click)="closeDetail()"><mat-icon color="primary">keyboard_tab</mat-icon></button>
+        </div>
+        <div>
+          <button mat-icon-button *ngIf="contactOnEdit" (click)="completeContactEditing()"><mat-icon>done</mat-icon></button>
+          <button mat-icon-button *ngIf="!contactOnEdit" (click)="startContactEditing()"><mat-icon color="primary">edit</mat-icon></button>
+          <button mat-icon-button *ngIf="!contactOnEdit" (click)="openDeleteContactDialog()"><mat-icon color="warn">delete</mat-icon></button>
+        </div>
+      </div><!-- top bar -->
+      <div class="contact-detail-wrapper">
+        <div class="inner-scroll-wrapper">
+          <app-contact-detail
+            *ngIf="currentContact"
+            (faceClicked)="openImagePreview($event)"
+            [contact]="currentContact"
+            [onEdit]="contactOnEdit"></app-contact-detail>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>

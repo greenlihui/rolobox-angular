@@ -1,0 +1,98 @@
+.top-toolbar {
+  height: 64px;
+  padding: 0 24px;
+  background-color: #4DB6AC;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+}
+
+.page-content {
+  height: calc(100vh - 64px);
+  padding: 0 24px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.image-actions {
+  position: fixed;
+  height: 48px;
+  right: 24px;
+  top: 64px;
+  width: 256px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  z-index: 100;
+}
+
+.image-actions button ~ button {
+  margin-right: 8px;
+}
+
+.year-content {
+}
+
+.year-title {
+  letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #37474F;
+  background: white;
+  position: sticky;
+  top: 0;
+  padding-top: 8px;
+  z-index: 50;
+}
+
+.months-content {
+  padding-left: 24px;
+}
+
+.month-title {
+  color: #607D8B;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  z-index: 40;
+  position: sticky;
+  background: white;
+  top: 40px;
+}
+
+.title-text {
+  transform: translateX(-50%);
+}
+
+.photos-wrapper {
+  padding-left: 24px;
+  border-left: 4px solid #455A64;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.photo {
+  height: 160px;
+  width: 160px;
+  background-size: cover;
+  margin: 4px;
+  position: relative;
+}
+
+.cursor--pointer {
+  cursor: pointer;
+}
+
+.photo-check {
+  position: absolute;
+  right: 8px;
+  top: 3px;
+}

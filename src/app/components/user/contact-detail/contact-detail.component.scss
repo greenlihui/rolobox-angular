@@ -1,0 +1,147 @@
+.wrapper {
+  padding: 24px;
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #DDD;
+  padding-bottom: 16px;
+}
+
+.contact-avatar {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 4px;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.avatar-arrow {
+  border-radius: 4px;
+  background-color: white;
+  opacity: 0.6;
+  display: flex;
+  position: absolute;
+  top: 48px;
+  transform: translateY(-50%);
+}
+
+.avatar-arrow:hover {
+  cursor: pointer;
+}
+
+.arrow-left {
+  left: 0;
+}
+
+.arrow-right {
+  right: 0;
+}
+
+.contact-name {
+  font-size: 24px;
+  font-weight: 500;
+  flex: auto;
+  padding-left: 24px;
+  color: #263238;
+}
+
+.contact-name > mat-form-field {
+  display: block;
+  max-width: 128px;
+}
+
+.sub-info {
+  color: #90A4AE;
+}
+
+.info-section {
+  padding: 16px 0;
+  border-bottom: 1px solid #DDD;
+  box-sizing: border-box;
+}
+
+.info-section {
+  border-bottom: 1px solid #DDD;
+  padding: 8px 0;
+}
+
+.part-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #90A4AE;
+  margin-bottom: 8px;
+}
+
+.part-item {
+  padding-left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.extra-padding {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.label {
+  width: 30%;
+  color: #263238;
+}
+
+.value {
+  width: 60%;
+  color: #607D8B;
+}
+
+.label > mat-form-field, .value > mat-form-field {
+  max-width: 80%;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 16px;
+}
+
+.action {
+  width: 10%;
+}
+
+.face-content {
+  display: flex;
+  padding: 8px 16px;
+  flex-wrap: wrap;
+}
+
+.face-item:hover {
+  cursor: pointer;
+}
+
+.click-disabled {
+  pointer-events: none;
+}
+
+.face-item {
+  width: 64px;
+  height: 64px;
+  margin: 4px;
+  border-radius: 4px;
+  background-size: cover;
+  position: relative;
+}
+
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: white;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+}

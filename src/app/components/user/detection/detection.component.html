@@ -1,0 +1,109 @@
+<div class="top-toolbar">
+  <div class="page-title">
+    <span>Upload</span>
+  </div><!-- page title -->
+</div><!-- top toolbar -->
+
+<div class="page-content d-flex ">
+  <div class="detection-content fx-auto d-flex fx-column">
+    <div class="image-section fx-auto">
+      <div class="image-actions">
+        <div class="image-info equal-flex-effect">
+          <span>{{imageFormat | uppercase}}</span>
+          <span *ngIf="imageFormat"> / </span>
+          <span>{{imageSize}}</span>
+        </div>
+        <div class="image-editing">
+          <div *ngIf="imageOnCropping">
+            <button mat-icon-button *ngIf="imageOnCropping" (click)="rotateLeft()" matTooltip="rotate left"><mat-icon>rotate_left</mat-icon></button>
+            <button mat-icon-button *ngIf="imageOnCropping" (click)="rotateRight()" matTooltip="rotate right"><mat-icon>rotate_right</mat-icon></button>
+            <button mat-icon-button *ngIf="imageOnCropping" (click)="flipHorizontal()" matTooltip="flip horizontal"><mat-icon>flip</mat-icon></button>
+            <button mat-icon-button *ngIf="imageOnCropping" (click)="flipVertical()" matTooltip="flip vertical"><mat-icon style="transform: rotate(90deg)">flip</mat-icon></button>
+            <button mat-icon-button *ngIf="imageOnCropping" [matMenuTriggerFor]="cropMenu" matTooltip="crop aspect ratio"><mat-icon>aspect_ratio</mat-icon></button>
+            <mat-menu #cropMenu="matMenu">
+              <button mat-menu-item (click)="setCropAspectRatio(0)"><mat-icon>crop_free</mat-icon>Free</button>
+              <button mat-menu-item (click)="setCropAspectRatio(imageOriginalAspectRatio)"><mat-icon>crop_original</mat-icon>Original</button>
+              <button mat-menu-item (click)="setCropAspectRatio(1)"><mat-icon>crop_square</mat-icon>Square</button>
+              <button mat-menu-item (click)="setCropAspectRatio(3 / 2)"><mat-icon>crop_3_2</mat-icon>3 / 2</button>
+              <button mat-menu-item (click)="setCropAspectRatio(5 / 4)"><mat-icon>crop_5_4</mat-icon>5 / 4</button>
+              <button mat-menu-item (click)="setCropAspectRatio(16 / 9)"><mat-icon>crop_16_9</mat-icon>16 / 9</button>
+            </mat-menu>
+          </div>
+          <div *ngIf="!imageOnCropping">
+            <button mat-icon-button [disabled]="imageEditingDisabled" *ngIf="!imageOnCropping" (click)="startCropping()" matTooltip="crop"><mat-icon>crop</mat-icon></button>
+            <button mat-icon-button [disabled]="imageEditingDisabled" *ngIf="!imageOnCropping" [matMenuTriggerFor]="compressMenu" matTooltip="compress"><mat-icon>vertical_align_center</mat-icon></button>
+            <mat-menu #compressMenu="matMenu">
+              <button mat-menu-item (click)="compressImage(0.8)">High Quality</button>
+              <button mat-menu-item (click)="compressImage(0.5)">Medium Quality</button>
+            </mat-menu>
+            <button mat-icon-button [disabled]="imageEditingDisabled" *ngIf="!imageOnCropping" matTooltip="save a copy" (click)="saveACopy()"><mat-icon>save_alt</mat-icon></button>
+          </div>
+        </div><!-- image editing -->
+        <div class="next-actions equal-flex-effect">
+          <button mat-flat-button [disabled]="imageEditingDisabled" color="primary" *ngIf="!imageOnCropping" (click)="upload()">UPLOAD</button>
+          <button mat-icon-button *ngIf="imageOnCropping" (click)="doneCropping()"><mat-icon>done</mat-icon></button>
+          <button mat-icon-button *ngIf="imageOnCropping" (click)="cancelCropping()"><mat-icon>close</mat-icon></button>
+        </div>
+      </div>
+      <div class="image-wrapper--outer fx-auto">
+        <div class="image-wrapper--inner">
+          <img [src]="imageSrc" *ngIf="!imageOnCropping" class="main-image" (load)="imageElementLoaded($event.target)" #imageDisplay>
+          <div class="main-image bounding-boxes" [style.width]="imageElementWidth + 'px'" [style.height]="imageElementHeight + 'px'">
+            <div *ngFor="let box of boundingBoxes; let i = index"
+                 [ngStyle]="{'left': box.left, 'top': box.top, 'width': box.width, 'height': box.height}"
+                 class="face-bounds" (click)="onFaceBoundsClick(i)">
+            </div>
+          </div>
+        </div>
+        <image-cropper
+          *ngIf="imageOnCropping"
+          [imageBase64]="imageSrc"
+          [maintainAspectRatio]="imageMaintainAspectRatio"
+          [onlyScaleDown]="true"
+          [aspectRatio]="imageCropAspectRatio"
+          [cropperMinHeight]="imageCropperMinSize"
+          [cropperMinWidth]="imageCropperMinSize"
+          (imageCropped)="imageCropped($event)"
+          (loadImageFailed)="imagedLoadFailed()"
+          (cropperReady)="cropperReady()"
+          outputType="base64"
+          [format]="imageFormat"
+        ></image-cropper>
+        <mat-progress-bar mode="indeterminate" [class.d-none]="!barInProgress"></mat-progress-bar>
+      </div>
+    </div><!-- image wrapper -->
+    <div class="image-options">
+      <button mat-flat-button color="primary" (click)="btnUpload.click()">CHOOSE FROM LOCAL</button>
+      <input #btnUpload type="file" class="d-none" (change)="loadImageFromLocalFile($event)" accept="image/png,image/jpeg">
+      <span>or</span>
+      <mat-form-field>
+        <mat-label>USE IMAGE URL</mat-label>
+        <input type="text" matInput placeholder="Enter to Load"
+               (keydown.enter)="loadImageFromAddress(imageAddress.value)" #imageAddress>
+      </mat-form-field>
+      <button mat-icon-button class="upload-info" (click)="openUploadInfoDialog()"><mat-icon>info</mat-icon></button>
+    </div><!-- image options -->
+  </div><!-- detection content -->
+  <div *ngIf="isImageStatus(imageStatuses.UPLOADED_WITH_FACES_DETECTED)">
+    <div class="section-title">
+      <span class="title-content" style="margin-left: 24px">Result</span>
+    </div><!-- section title -->
+    <div style="height: calc(100% - 56px)">
+      <app-detection-result
+        [faceDetails]="faceDetails"
+        [currentImageFilename]="currentImageFilename"
+        [currentFaceIndex]="currentFaceIndex"></app-detection-result>
+    </div>
+  </div>
+
+  <div class="detection-result" *ngIf="isImageStatus(imageStatuses.UPLOADED_WITH_NO_FACES_DETECTED)">
+    <div class="section-title">
+      <span class="title-content">No Face Detected</span>
+    </div><!-- section title -->
+  </div><!-- no face detected section -->
+  <div class="detection-result" *ngIf="isImageStatus(imageStatuses.NOT_UPLOADED)">
+  <div class="section-title">
+    <span class="title-content">Please Upload An Image</span>
+  </div><!-- section title -->
+</div><!-- image not uploaded section -->
+</div><!-- page content -->

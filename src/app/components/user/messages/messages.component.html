@@ -1,0 +1,128 @@
+<div class="top-toolbar">
+  <div class="page-title">
+    <span>Messages</span>
+  </div><!-- page title -->
+
+
+  <button mat-icon-button (click)="changePanelContent(endPanelContentOptions.FRIENDS)">
+    <mat-icon>people_alt</mat-icon>
+  </button>
+</div><!-- top toolbar -->
+
+<mat-sidenav-container class="page-content">
+  <mat-sidenav mode="side" [opened]="endPanelOpened" position="end">
+    <div class="sidenav-content-wrapper">
+      <div class="top-bar" *ngIf="isEndPanelContent(endPanelContentOptions.FRIEND_DETAIL)">
+        <button mat-icon-button (click)="closeEndPanel()"><mat-icon color="primary">keyboard_tab</mat-icon></button>
+        <div>
+          <button mat-icon-button (click)="openDeleteFriendDialog(currentFriendInDisplay._id)"><mat-icon color="warn">delete</mat-icon></button>
+          <button mat-icon-button (click)="openBlockFriendDialog(currentFriendInDisplay._id)"><mat-icon color="warn">block</mat-icon></button>
+        </div>
+      </div><!-- top bar: friend detail -->
+      <div class="top-bar" *ngIf="isEndPanelContent(endPanelContentOptions.FRIENDS)">
+        <button mat-icon-button (click)="closeEndPanel()"><mat-icon color="primary">keyboard_tab</mat-icon></button>
+        <div>
+          <button mat-icon-button (click)="openFriendRequestDialog()"><mat-icon color="primary">person_add</mat-icon></button>
+          <button mat-icon-button (click)="openQrCodeDialog()"><mat-icon color="primary">center_focus_strong</mat-icon></button>
+        </div>
+
+      </div><!-- top bar: friends -->
+      <div class="friend-detail">
+        <div class="inner-scroll-wrapper" *ngIf="isEndPanelContent(endPanelContentOptions.FRIEND_DETAIL)">
+          <app-contact-detail [onEdit]="false"
+                              [groupEditable]="false"
+                              [contact]="currentFriendInDisplay.profile">
+          </app-contact-detail>
+        </div><!-- content: friend detail -->
+        <div class="inner-scroll-wrapper" *ngIf="isEndPanelContent(endPanelContentOptions.FRIENDS)">
+          <div *ngFor="let friend of friends" class="friend-item mat-elevation-z2">
+            <div class="friend-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(friend.profile.faces.avatar) + ')'"></div>
+            <div class="friend-name">{{friend.profile.name.full}}</div>
+            <button mat-icon-button (click)="openFriendDetail(friend)"><mat-icon>person</mat-icon></button>
+            <button mat-icon-button (click)="startChatting(friend)"><mat-icon>chat</mat-icon></button>
+          </div>
+        </div><!-- content: friends -->
+      </div>
+    </div>
+  </mat-sidenav><!-- sidenav -->
+
+  <mat-sidenav-content>
+    <div class="main-content-wrapper">
+      <div class="content-left">
+        <div class="search-section d-flex justify-content-center align-items-center">
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput placeholder="Search">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div><!-- search section -->
+        <div class="messages-list">
+          <div class="inner-scroll-wrapper" *ngIf="dataAvailable">
+            <div class="list-item" *ngFor="let friend of friendsInConversation; let i = index"
+                 (click)="setCurrentFriendInChatting(friend)"
+                 [class.mat-elevation-z4]="currentFriendInChatting._id === friend._id">
+              <div class="item-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(
+              friend.profile.faces.avatar) + ')'"></div><!-- avatar -->
+              <div class="item-info">
+                <div class="top-line fx-justify-between">
+                  <div class="item-name">{{friend.profile.name.full}}</div>
+                  <div class="item-time" *ngIf="latestMsgData[i].latestMsg.timestamp">{{formatMsgTime(latestMsgData[i].latestMsg.timestamp)}}</div>
+                </div><!-- top line -->
+                <div class="bottom-line fx-justify-between">
+                  <div class="item-message">{{formatMsgContent(latestMsgData[i].latestMsg.content)}}</div>
+                  <div class="message-number" *ngIf="latestMsgData[i].unreadCount">{{latestMsgData[i].unreadCount}}</div>
+                </div><!-- bottom line -->
+              </div><!-- item info -->
+            </div><!-- list item -->
+          </div><!-- inner scroll wrapper -->
+        </div><!-- message list -->
+      </div><!-- left: message list -->
+
+      <div class="content-right">
+        <div class="top-bar">
+          <span class="chatter-name" *ngIf="currentFriendInChatting">{{currentFriendInChatting.profile.name.full}}</span>
+          <button mat-icon-button (click)="openFriendDetail(currentFriendInChatting)"><mat-icon>person</mat-icon></button>
+        </div><!-- top bar -->
+        <div class="conversation-content">
+          <div class="inner-scroll" #conversations>
+            <div class="chat-item"
+                 *ngFor="let msg of messages;"
+                 [class.reply]="!isReceive(msg)"
+                 [class.receive]="isReceive(msg)">
+              <div class="avatar" [style.background-image]="'url(' + avatarUrl(msg) + ')'"></div>
+              <div class="message-content"
+                   [class.content--reply]="!isReceive(msg)"
+                   [class.content--receive]="isReceive(msg)">
+                <span>{{msg.content}}</span>
+              </div><!-- message content -->
+            </div><!-- single message: receive -->
+
+<!--            <div class="chat-item receive">-->
+<!--              <div class="avatar avatar&#45;&#45;receive"></div>-->
+<!--              <div class="message-content content&#45;&#45;receive">-->
+<!--                <span>Happy New Year!</span>-->
+<!--              </div>&lt;!&ndash; message content &ndash;&gt;-->
+<!--            </div>&lt;!&ndash; single message: receive &ndash;&gt;-->
+<!--            <div class="chat-item reply">-->
+<!--              <div class="avatar avatar&#45;&#45;reply"></div>-->
+<!--              <div class="message-content content&#45;&#45;reply">-->
+<!--                <span>Thank you very much!</span>-->
+<!--              </div>-->
+<!--            </div>&lt;!&ndash; single message: reply &ndash;&gt;-->
+          </div>
+        </div><!-- conversation -->
+        <div class="input-area">
+          <div class="input-options">
+            <button mat-icon-button><mat-icon>tag_faces</mat-icon></button>
+            <button mat-icon-button><mat-icon>photo</mat-icon></button>
+            <button mat-icon-button><mat-icon>account_box</mat-icon></button>
+          </div><!-- input options -->
+          <div class="textarea-wrapper">
+            <textarea matNativeControl (keydown.enter)="$event.preventDefault(); sendMsg(messageTypes.TEXT, textarea.value)" #textarea [(ngModel)]="msgInput"></textarea>
+          </div><!-- textarea wrapper -->
+        </div><!-- input area -->
+      </div><!-- right: conversation content -->
+
+    </div><!-- main content wrapper -->
+  </mat-sidenav-content><!-- main content -->
+</mat-sidenav-container><!-- page content -->

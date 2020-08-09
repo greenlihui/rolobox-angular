@@ -112,6 +112,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -143,6 +144,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "capstone-ng"
 }

@@ -1,0 +1,80 @@
+.detection-result {
+  width: 368px;
+  padding: 0 24px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.result-wrapper {
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  color: #37474F;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  height: 56px;
+  font-size: 24px;
+  position: relative;
+}
+
+.title-content {
+  position: absolute;
+  bottom: 8px;
+}
+
+.detected-faces {
+  border-top: 1px solid #DDD;
+  border-bottom: 1px solid #DDD;
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.face:hover {
+  border: 2px solid yellow;
+  cursor: pointer;
+}
+
+.face--selected {
+  border: 2px solid yellow !important;
+}
+
+.text-analysis {
+  flex: auto;
+  position: relative;
+}
+
+.face {
+  background-size: cover;
+  background-image: url("../../../../assets/face-m.png");
+  height: 96px;
+  width: 96px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: 8px;
+  display: inline-block;
+  border: 2px solid white;
+}
+
+.inner-scroll-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.analysis-item {
+  height: 48px;
+  border-bottom: 1px solid #DDD;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.result-action {
+  height: 80px;
+}

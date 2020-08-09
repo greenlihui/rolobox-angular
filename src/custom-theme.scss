@@ -1,0 +1,53 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$theme-primary: mat-palette($mat-blue-gray, 800);
+$theme-accent: mat-palette($mat-teal, 700, 500, 900);
+$theme-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-light-theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+$app-dark-theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-light-theme);
+
+@include mat-core-theme($app-light-theme);
+@include mat-button-theme($app-light-theme);
+@include mat-table-theme($app-light-theme);
+
+app-contacts .filter-section {
+  @include angular-material-theme($app-dark-theme);
+  //@include mat-checkbox-theme($app-dark-theme);
+  //@include mat-form-field-theme($app-dark-theme);
+  //@include mat-input-theme($app-dark-theme);
+  //@include mat-radio-theme($app-dark-theme);
+}
+app-contacts .sidenav-content-wrapper {
+  @include mat-checkbox-theme($app-light-theme);
+  @include mat-menu-theme($app-light-theme);
+  @include mat-form-field-theme($app-dark-theme);
+  @include mat-input-theme($app-dark-theme);
+  @include mat-chips-theme($app-dark-theme);
+}
+
+app-detection {
+  @include mat-form-field-theme($app-light-theme);
+  @include mat-input-theme($app-dark-theme);
+  @include mat-dialog-theme($app-light-theme);
+}
+
+app-gallery {
+  @include mat-checkbox-theme($app-dark-theme);
+}

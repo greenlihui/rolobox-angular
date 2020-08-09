@@ -1,0 +1,81 @@
+<div class="content-wrapper">
+  <div class="image-wrapper--outer">
+    <div class="image-wrapper--inner">
+      <img class="main-image"
+           (load)="imageElementLoaded($event.target)"
+           [src]="imageSrc" #imageDisplay>
+      <div class="main-image bounding-boxes"
+           *ngIf="isSideContent(sideContentOptions.FACES_DETAILS)"
+           [style.width]="imageElementWidth + 'px'"
+           [style.height]="imageElementHeight + 'px'">
+        <div *ngFor="let box of boundingBoxes; let i = index"
+             [ngStyle]="{'left': box.left, 'top': box.top, 'width': box.width, 'height': box.height}"
+             class="face-bounds" (click)="onFaceBoundsClicked(i)">
+        </div>
+      </div>
+    </div>
+  </div><!-- image wrapper -->
+
+  <div class="side-content">
+    <div class="top-action-bar justify-content-between" *ngIf="isSideContent(sideContentOptions.CONTACTS)">
+      <div>
+        <button mat-icon-button (click)="changeSideContent(sideContentOptions.FACES_DETAILS)"><mat-icon>face</mat-icon></button>
+      </div>
+      <div>
+        <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+      </div>
+    </div><!-- top action bar: contacts -->
+    <div class="top-action-bar justify-content-between" *ngIf="isSideContent(sideContentOptions.CONTACT_DETAILS)">
+      <div>
+        <button mat-icon-button color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+      </div>
+      <div *ngIf="!contactOnEdit">
+        <button mat-icon-button color="primary" (click)="startContactEditing()"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="openDeleteContactDialog()"><mat-icon>delete</mat-icon></button>
+      </div>
+      <div *ngIf="contactOnEdit">
+        <button mat-icon-button color="primary" (click)="completeContactEditing()"><mat-icon>done</mat-icon></button>
+      </div>
+    </div><!-- top action bar: contact detail -->
+    <div class="top-action-bar justify-content-between" *ngIf="isSideContent(sideContentOptions.FACES_DETAILS)">
+      <div>
+        <button mat-icon-button color="primary" (click)="changeSideContent(sideContentOptions.CONTACTS)"><mat-icon>arrow_back</mat-icon></button>
+      </div>
+      <div>
+
+      </div>
+    </div><!-- top action bar: face details -->
+
+    <div class="main-content">
+      <div class="inner-scroll-wrapper content--contacts" *ngIf="isSideContent(sideContentOptions.CONTACTS)">
+        <div *ngFor="let contact of contacts" class="contact-item">
+          <div class="item-group mat-elevation-z4" [style.background-color]="contact.group.color" *ngIf="contact.group" [matTooltip]="contact.group.name"></div>
+          <div class="item-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(contact.faces.avatar) + ')'"></div>
+          <div class="item-name">{{contact.name.full}}</div>
+          <button mat-icon-button (click)="openContactDetail(contact.group._id, contact._id)"><mat-icon>person</mat-icon></button>
+          <button mat-icon-button><mat-icon>chat</mat-icon></button>
+        </div>
+        <div *ngIf="contacts.length === 0" class="contact-item">
+          No Contacts Related To This Image
+        </div>
+      </div><!-- inner scroll wrapper: contacts -->
+
+      <div class="inner-scroll-wrapper content--details" *ngIf="isSideContent(sideContentOptions.CONTACT_DETAILS)">
+        <app-contact-detail
+          (faceClicked)="onContactFaceClicked($event)"
+          [contact]="currentContact"
+          [onEdit]="contactOnEdit">
+        </app-contact-detail>
+      </div><!-- inner scroll wrapper: contact detail -->
+
+      <div class="inner-scroll-wrapper" *ngIf="isSideContent(sideContentOptions.FACES_DETAILS)">
+        <app-detection-result
+          *ngIf="imageDoc.faceDetails"
+          [currentImageFilename]="imageFilename"
+          [currentFaceIndex]="currentFaceIndex"
+          [faceDetails]="imageDoc.faceDetails">
+        </app-detection-result>
+      </div><!-- inner scroll wrapper: face details -->
+    </div><!-- main content -->
+  </div><!-- side content -->
+</div>

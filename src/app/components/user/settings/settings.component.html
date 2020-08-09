@@ -1,0 +1,172 @@
+<div class="top-toolbar">
+  <div class="page-title">
+    <span>Settings</span>
+  </div><!-- page title -->
+
+<!--  <div>-->
+<!--    <mat-form-field appearance="legacy">-->
+<!--      <mat-label>Search</mat-label>-->
+<!--      <input matInput placeholder="Search">-->
+<!--      <mat-icon matSuffix>search</mat-icon>-->
+<!--    </mat-form-field>-->
+<!--  </div>&lt;!&ndash; search section &ndash;&gt;-->
+</div><!-- top toolbar -->
+
+
+<div class="page-content">
+  <div class="inner-scroll-wrapper">
+    <div class="left">
+      <div class="setting__menu">
+        <div class="menu-item" (click)="showSettingItem(0)">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </div>
+        <div class="menu-item" (click)="showSettingItem(1)">
+          <mat-icon>palette</mat-icon>
+          <span>Appearance</span>
+        </div>
+        <div class="menu-item" (click)="showSettingItem(2)">
+          <mat-icon>security</mat-icon>
+          <span>Security</span>
+        </div>
+        <div class="menu-item" (click)="showSettingItem(3)">
+          <mat-icon>lock</mat-icon>
+          <span>Privacy</span>
+        </div>
+        <div class="menu-item" (click)="showSettingItem(4)">
+          <mat-icon>stars</mat-icon>
+          <span>Membership & Payment</span>
+        </div>
+      </div><!-- setting menu -->
+    </div><!-- left -->
+    <div class="middle">
+      <div class="setting__content">
+        <div class="setting-section">
+          <div class="section__title">Profile</div>
+          <div class="section__content mat-elevation-z4">
+            <div class="setting-item item--tall">
+              <div class="user-avatar" [style.background-image]="'url(' + imageService.generateThumbnailImageURL(stateService.currentUser.profile.faces.avatar) + ')'"></div>
+              <div>
+                <span class="editable">{{stateService.currentUser.profile.name.full}}</span>
+                <button mat-button color="accent" (click)="openEditProfileDialog()">EDIT</button>
+              </div><!-- on display -->
+            </div><!-- setting item: user -->
+            <div class="setting-item item--medium">
+              <div class="setting-label">Email</div>
+              <div *ngIf="!emailOnEdit">
+                <span class="editable">{{stateService.currentUser.email}}</span>
+                <button mat-button color="accent">EDIT</button>
+              </div><!-- on display -->
+              <div *ngIf="emailOnEdit">
+                <mat-form-field>
+                  <input matInput [value]="stateService.currentUser.email">
+                </mat-form-field>
+                <button mat-button color="accent">SAVE</button>
+              </div><!-- on edit -->
+            </div><!-- setting item: username -->
+          </div><!-- section content -->
+        </div><!-- profile setting -->
+        <div class="setting-section">
+          <div class="section__title">Appearance</div>
+          <div class="section__content mat-elevation-z4">
+            <div class="setting-item item--medium justify-content-between">
+              <div class="setting-label">Dark Theme</div>
+              <span style="margin-right: 16px">
+                <mat-slide-toggle></mat-slide-toggle>
+              </span>
+            </div><!-- setting item: dark theme -->
+          </div><!-- section content -->
+        </div><!-- appearance setting -->
+        <div class="setting-section">
+          <div class="section__title">Security</div>
+          <div class="section__content mat-elevation-z4">
+            <div class="setting-item item--medium justify-content-between">
+              <div class="setting-label">Password</div>
+              <button mat-button color="accent">RESET</button>
+            </div><!-- setting item: password -->
+            <div style="padding: 0 24px; display: flex; flex-direction: column; justify-content: center; height: 64px; border-top: 1px solid #DDDDDD">
+              <div style="color: #37474F;">Account Connection</div>
+              <div style="font-size: 12px; color: #607D8B">You can sign in through third-party platforms</div>
+            </div><!-- setting item: account connection -->
+            <div class="d-flex justify-content-between align-items-center item--sub">
+              <div style="color: #37474F; display: flex; align-items: center">
+                <img src="assets/third-party-logos/facebook.svg" width="24px">
+                <span style="margin-left: 8px">Facebook</span>
+              </div>
+              <button mat-button color="accent">CONNECT</button>
+            </div><!-- sub setting item: Facebook -->
+            <div class="d-flex justify-content-between align-items-center item--sub">
+              <div style="color: #37474F; display: flex; align-items: center">
+                <img src="assets/third-party-logos/twitter.svg" width="24px">
+                <span style="margin-left: 8px">Twitter</span>
+              </div>
+              <button mat-button color="accent">CONNECT</button>
+            </div><!-- sub setting item: Twitter -->
+            <div class="d-flex justify-content-between align-items-center item--sub">
+              <div style="color: #37474F; display: flex; align-items: center">
+                <img src="assets/third-party-logos/google.svg" width="24px">
+                <span style="margin-left: 8px">Google</span>
+              </div>
+              <button mat-button color="accent">CONNECT</button>
+            </div><!-- sub setting item: Google -->
+            <div class="setting-item item--medium justify-content-between">
+              <div class="setting-label">Close account</div>
+              <button mat-button color="warn">CLOSE</button>
+            </div><!-- setting item: close account -->
+          </div><!-- section content -->
+        </div><!-- security setting -->
+        <div class="setting-section">
+          <div class="section__title">Privacy</div>
+          <div class="section__content mat-elevation-z4">
+<!--            <div class="setting-item item&#45;&#45;medium">-->
+<!--              <div class="setting-label">Find Me By</div>-->
+<!--              <div *ngIf="true">-->
+<!--                <span class="editable">username</span>-->
+<!--                <button mat-button color="accent">EDIT</button>-->
+<!--              </div>&lt;!&ndash; on display &ndash;&gt;-->
+<!--              <div *ngIf="false">-->
+<!--                <mat-form-field>-->
+<!--                  <mat-select required>-->
+<!--                    <mat-option value="volvo">username</mat-option>-->
+<!--                    <mat-option value="saab">email</mat-option>-->
+<!--                    <mat-option value="mercedes">username or email</mat-option>-->
+<!--                  </mat-select>-->
+<!--                </mat-form-field>-->
+<!--                <button mat-button color="accent">SAVE</button>-->
+<!--              </div>&lt;!&ndash; on edit &ndash;&gt;-->
+<!--            </div>&lt;!&ndash; setting item: find me by &ndash;&gt;-->
+            <div class="setting-item item--medium justify-content-between">
+              <div class="setting-label">Black List</div>
+              <button mat-button color="accent" (click)="openBlockedUserDialog()">EDIT</button>
+            </div><!-- setting item: black list -->
+          </div>
+        </div><!-- privacy setting -->
+        <div class="setting-section">
+          <div class="section__title">Membership & Payment</div>
+          <div class="section__content mat-elevation-z4">
+            <div class="setting-item item--medium justify-content-between">
+              <div class="setting-label">Pro Member Since Nov. 2019</div>
+              <button mat-button color="accent">CANCEL SUBSCRIPTION</button>
+            </div><!-- setting item: pro member since -->
+            <div class="setting-item item--tall justify-content-between">
+              <div class="d-flex fx-column justify-content-center">
+                <span style="color: #37474F;">Payment</span>
+                <span class="d-flex align-items-center" style="color: #607D8B; font-size: 12px">
+                  <mat-icon>credit_card</mat-icon>
+                  <span>Ending with 2414</span>
+                </span>
+              </div>
+              <div>
+                <button mat-button color="accent">USE A NEW CARD</button>
+                <button mat-button color="warn">REMOVE THIS CARD</button>
+              </div>
+            </div><!-- payment -->
+          </div>
+        </div><!-- membership & payment setting -->
+      </div><!-- setting content -->
+    </div><!-- middle -->
+    <div class="right">
+    </div><!-- right -->
+  </div><!-- inner scroll wrapper -->
+
+</div>

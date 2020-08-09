@@ -1,0 +1,16 @@
+:host {
+  position: relative;
+}
+
+.intro {
+  position: relative;
+}
+
+.intro-text {
+  position: absolute;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+   color: white;
+}

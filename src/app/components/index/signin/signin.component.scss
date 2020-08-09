@@ -1,0 +1,96 @@
+.page-wrapper {
+  display: flex;
+  height: calc(100vh - 64px);
+}
+
+.page__left {
+  width: 40%;
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.page__right {
+  background: #2C3344;
+  height: 100%;
+  width: 60%;
+  display: flex;
+}
+
+.page__right-svg {
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  color: #2C3344;
+  width: 65%;
+  margin: 0 auto 32px;
+}
+
+.card-wrapper {
+  position: relative;
+  width: 65%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.card {
+  padding: 40px 50px;
+}
+
+.card__title {
+  position: relative;
+  margin-top: 0;
+  color: #009688;
+  letter-spacing: 2px;
+}
+
+.card__title:before {
+  content: "";
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -50px;
+  background: #009688;
+}
+
+.card__actions {
+  text-align: center;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+}
+
+.form-input {
+  display: block;
+}
+
+.alter-action {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  transform-origin: center center;
+}
+
+.third-party-signin-options {
+  width: 65%;
+  margin: 24px auto 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.third-party-signin-option {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+

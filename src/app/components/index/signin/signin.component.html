@@ -1,0 +1,53 @@
+<div class="page-wrapper">
+
+  <div class="page__left">
+    <h2 class="welcome-title">Welcome Back</h2>
+    <div class="card-wrapper mat-elevation-z2">
+      <div class="card">
+        <h1 class="card__title">{{action}}</h1>
+        <div class="sign-in-card__form" [formGroup]="form">
+          <mat-form-field class="form-input">
+            <input matInput placeholder="Email" type="text" formControlName="email">
+            <mat-error>{{getEmailError()}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="action != actionTypes.RESET" @expandInOut class="form-input">
+            <input matInput placeholder="Password" type="password" formControlName="password">
+            <mat-error>{{getPasswordError()}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="action == actionTypes.SIGNUP" @expandInOut class="form-input">
+            <input matInput placeholder="Repeat Password" type="password" formControlName="repeatPassword" [errorStateMatcher]="errorMatcher">
+            <mat-error>Password does not match.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="card__actions">
+          <button class="submit-button" color="primary" [disabled]="form.invalid"
+                  mat-flat-button (click)="submit()">{{action}}</button>
+          <button (click)="changeAction(actionTypes.RESET)" mat-flat-button>
+            Forget Your Password?
+          </button>
+        </div>
+        <button (click)="changeBetweenSignInAndUp()" [@rotate]="(action == actionTypes.SIGNIN) ? 'normal' : 'rotated'" class="alter-action"
+                mat-fab>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="third-party-signin-options">
+      <a routerLink="/user" class="third-party-signin-option mat-elevation-z2">
+        <img src="assets/third-party-logos/google.svg">
+      </a>
+      <a routerLink="/user" class="third-party-signin-option mat-elevation-z2">
+        <img src="assets/third-party-logos/facebook.svg">
+      </a>
+      <a routerLink="/user" class="third-party-signin-option mat-elevation-z2">
+        <img src="assets/third-party-logos/twitter.svg">
+      </a>
+    </div>
+  </div>
+
+  <div class="page__right">
+    <img src="assets/login-left.svg" class="page__right-svg">
+  </div>
+</div>

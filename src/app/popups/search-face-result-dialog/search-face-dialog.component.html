@@ -1,0 +1,30 @@
+<h3 mat-dialog-title>Face Matches</h3>
+<mat-dialog-content class="mat-body">
+  <div class="title">
+    <div [style.background-image]="'url(' + data.thumbnailImageURL + ')'"
+         class="contact-face-item"></div>
+    <span style="margin-left: 8px; max-width: 192px">
+      This person seems to be one of the following contacts.
+    </span>
+  </div>
+
+  <mat-radio-group [(ngModel)]="radioGroupInput">
+    <mat-radio-button class="contact-item" [value]="contact._id" *ngFor="let contact of contacts">
+      <div class="button-content-wrapper">
+        <div class="contact-name">
+          <span>{{contact.name.full}}</span>
+        </div>
+        <div class="avatar-row">
+          <div class="inner-scroll-wrapper">
+            <div *ngFor="let face of contact.faces.list" class="contact-face-item"
+                 [style.background-image]="'url(' + imageService.generateThumbnailImageURL(face.thumbnailImageFilename) + ')'"></div>
+          </div>
+        </div>
+      </div>
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <button mat-button [mat-dialog-close]="radioGroupInput" [disabled]="!radioGroupInput">Attach This Face </button>
+</mat-dialog-actions>

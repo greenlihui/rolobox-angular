@@ -1,0 +1,35 @@
+<div class="side-nav">
+  <div class="user-avatar-section">
+    <div
+      [style.background-image]="'url(' + imageService.generateThumbnailImageURL(
+      stateService.currentUser.profile.faces.avatar) + ')'"
+      class="user-avatar"></div>
+    <div class="user-first-name"><span>{{stateService.currentUser.profile.name.first}}</span></div>
+  </div>
+
+  <div class="nav-items-wrapper">
+    <button mat-icon-button routerLink="messages" routerLinkActive="router-link--active">
+      <mat-icon>forum</mat-icon>
+    </button>
+    <button mat-icon-button routerLink="contacts" routerLinkActive="router-link--active">
+      <mat-icon>group</mat-icon>
+    </button>
+    <button mat-icon-button routerLink="gallery" routerLinkActive="router-link--active">
+      <mat-icon>collections</mat-icon>
+    </button>
+    <button mat-icon-button routerLink="detection" routerLinkActive="router-link--active">
+      <mat-icon>library_add</mat-icon>
+    </button>
+    <button mat-icon-button routerLink="settings" routerLinkActive="router-link--active">
+      <mat-icon>settings_applications</mat-icon>
+    </button>
+
+    <div class="sign-out-button-wrapper">
+      <button mat-icon-button color="warn" (click)="signout()"><mat-icon>exit_to_app</mat-icon></button>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

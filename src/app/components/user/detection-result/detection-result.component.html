@@ -1,0 +1,55 @@
+<div class="detection-result">
+  <div class="result-wrapper">
+    <div class="detected-faces">
+      <div class="face"
+           *ngFor="let face of faceDetails; let i = index"
+           (click)="currentFaceIndex = i"
+           [class.face--selected]="currentFaceIndex === i"
+           [class.mat-elevation-z6]="currentFaceIndex == i"
+           [style.background-image]="'url(' + imageService.generateThumbnailImageURL(face.ThumbnailImageFilename) +')'"></div>
+    </div><!-- detected faces -->
+    <div class="text-analysis">
+      <div class="inner-scroll-wrapper">
+        <div class="analysis-item">
+          <span>looks like a face</span>
+          <span>{{faceDetails ? floor(faceDetails[currentFaceIndex].Confidence) : '0'}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>age range</span>
+          <span>{{faceDetails ? faceDetails[currentFaceIndex].AgeRange.Low : 0}} ~
+            {{faceDetails ? faceDetails[currentFaceIndex].AgeRange.High : 0}}</span>
+        </div>
+        <div class="analysis-item">
+          <span>appears to be {{faceDetails ? faceDetails[currentFaceIndex].Gender.Value : 'Male'}}:</span>
+          <span>{{faceDetails ? floor(faceDetails[currentFaceIndex].Gender.Confidence) : 0}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>smiling</span>
+          <span>{{faceDetails ? floor(faceDetails[currentFaceIndex].Smile.Confidence) : 0}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>{{(faceDetails && faceDetails[currentFaceIndex].Eyeglasses.Value) ? '' : 'not'}} wearing glasses: </span>
+          <span>{{floor(faceDetails[currentFaceIndex].Eyeglasses.Confidence)}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>{{faceDetails[currentFaceIndex].Sunglasses.Value ? '' : 'not'}} wearing sunglasses: </span>
+          <span>{{floor(faceDetails[currentFaceIndex].Sunglasses.Confidence)}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>{{faceDetails[currentFaceIndex].Beard.Value ? '' : 'does not'}} have a beard: </span>
+          <span>{{floor(faceDetails[currentFaceIndex].Beard.Confidence)}} %</span>
+        </div>
+        <div class="analysis-item">
+          <span>{{faceDetails[currentFaceIndex].Mustache.Value ? '' : 'does not'}} have a mustache: </span>
+          <span>{{floor(faceDetails[currentFaceIndex].Mustache.Confidence)}} %</span>
+        </div>
+      </div>
+    </div><!-- text analysis -->
+  </div><!-- result wrapper -->
+  <div class="result-action d-flex justify-content-center align-items-center">
+    <button mat-flat-button color="primary" (click)="addFace()">
+      <mat-icon>playlist_add</mat-icon>
+      <span style="margin-left: 8px">ADD TO CONTACT LIST</span>
+    </button>
+  </div><!-- result action -->
+</div><!-- detection result -->

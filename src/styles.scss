@@ -1,1 +1,105 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~normalize-scss";
+@import "./custom-theme.scss";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/******************** FLEX LAYOUT */
+$d-options: inline, block, inline-block, flex, inline-flex, none;
+@each $d-option in $d-options {
+  .d-#{$d-option} {
+    display: $d-option;
+  }
+}
+
+$flex-directions: row, column, row-reverse, column-reverse;
+@each $direction in $flex-directions {
+  .fx-#{$direction} {
+    flex-direction: $direction;
+  }
+}
+
+$flex-wraps: nowrap, wrap, wrap-reverse;
+@each $wrap in $flex-wraps {
+  .fx-#{$wrap} {
+    flex-wrap: $wrap;
+  }
+}
+
+$justify-content-option-map: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around
+);
+@each $key in map-keys($justify-content-option-map) {
+  .justify-content-#{$key} {
+    justify-content: map-get($justify-content-option-map, $key);
+  }
+}
+
+$align-items-option-map: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  baseline: baseline,
+  stretch: stretch
+);
+@each $key in map-keys($align-items-option-map) {
+  .align-items-#{$key} {
+    align-items: map-get($align-items-option-map, $key);
+  }
+}
+
+$align-content-option-map: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around,
+  stretch: stretch
+);
+@each $key in map-keys($align-content-option-map) {
+  .align-content-#{$key} {
+    align-content: $key;
+  }
+}
+
+@for $i from 0 to 12 {
+  .fx-grow-#{$i} {
+    flex-grow: $i;
+  }
+  .fx-shrink-#{$i} {
+    flex-shrink: $i;
+  }
+}
+
+@each $option in map-keys($align-items-option-map) {
+  .align-self-#{$option} {
+    align-self: map-get($align-items-option-map, $option);
+  }
+}
+
+.fx-auto {
+  flex: auto;
+}
+
+.fx-none {
+  flex: none;
+}
+/* FLEX LAYOUT END ********************/
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  &.dark-backdrop {
+    background: #000;
+    opacity: 0.85 !important;
+  }
+}
+
+.image-preview-overlay-panel {
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}

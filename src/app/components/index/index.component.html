@@ -1,0 +1,27 @@
+<nav [style.background]="navBackground">
+  <div class="nav-wrapper">
+    <span class="logo" routerLink="">
+      <img src="assets/logos/app-logo-white.svg" *ngIf="logoSvgWhite" class="nav-logo-svg"/>
+      <img src="assets/logos/app-logo-dark.svg" *ngIf="!logoSvgWhite" class="nav-logo-svg"/>
+      <span *ngIf="logoSvgWhite">Capstone</span>
+    </span>
+    <span>
+      <a class="nav-item" routerLink="features"
+         routerLinkActive="nav-item--active">Features
+      </a>
+      <a class="nav-item" routerLink="pricing"
+         routerLinkActive="nav-item--active">Pricing
+      </a>
+      <a class="nav-item" routerLink="about"
+         routerLinkActive="nav-item--active">About
+      </a>
+      <a class="nav-item" routerLink="account"
+         routerLinkActive="nav-item--active">Account</a>
+    </span>
+    <div class="nav-bottom-divider" *ngIf="logoSvgWhite"></div>
+  </div>
+</nav>
+
+<div [@slideHorizontal]="prepareRoute(outlet)" class="index-router-content">
+  <router-outlet (activate)="onActivated($event)" #outlet="outlet"></router-outlet>
+</div>
