@@ -159,7 +159,6 @@ export class DetectionComponent implements OnInit {
 
   imagedLoadFailed() {
     this.stopLoading();
-    // todo image load failed
   }
 
   imageCropped(event: ImageCroppedEvent) {
