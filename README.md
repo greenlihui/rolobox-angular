@@ -1,19 +1,19 @@
 # RoloBox
-RoloBox is my capstone project during my study in [UWL](https://www.uwlax.edu/), it has been moved offline after I completed my project presentation.
+RoloBox is my capstone project during my study in [UWL](https://www.uwlax.edu/), it has been moved offline after I completed my project presentation. If you would like to see the demo, go to [Bilibili](https://www.bilibili.com/video/bv1q54y1i7nr).
 
-- [rolobox-angular](https://github.com/greenlihui/rolobox-angular)
+The project has been divided into three parts:
 - [rolobox-node](https://github.com/greenlihui/rolobox-node)
+- [rolobox-angular](https://github.com/greenlihui/rolobox-angular)
 - [rolobox-flutter](https://github.com/greenlihui/rolobox-flutter)
 
-This repository is the front-end of RoloBox, written with angular.
+This repository is the web part of RoloBox, written with angular.
 
-See more details about rolobox in [rolobox-node](https://github.com/greenlihui/rolobox-node)
+More details about rolobox can be found in [rolobox-node](https://github.com/greenlihui/rolobox-node)
 
 ## design
 - app icon
-![app icon](design/app-icon.png)
-- login page
-![login](design/login_and_register.png)
+    - A simple and well designed icon is indispensable for a product to impress their users. Figure \ref{fig:appIcon} shows the application icon of RoloBox, where the outer box is of a camera shape and the screen of the camera display a business card. Through the combination of these two simple object, the icon clearly convey the idea of RoloBox. That is, quickly get a person's contact information by taking a photo.
+    - ![app icon](design/app-icon.png)
 - contact list page
 ![contact list](design/contact_list.png)
 
